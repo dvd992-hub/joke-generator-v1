@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joke Generator</title>
+
+  <!-- Favicon: SVG preferred, ICO fallback for older browsers -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
+  <link rel="alternate icon" type="image/x-icon" href="assets/favicon/favicon.ico" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- Title -->
+  <h1 class="title">Joke Generator</h1>
+  <p class="subtitle">Random jokes, one click away</p>
+
+  <!-- Tabs: Generate / Saved -->
+  <div class="tabs">
+    <button class="tab active" id="tab-gen" onclick="switchTab('gen')">✨ Generate</button>
+    <button class="tab"        id="tab-fav" onclick="switchTab('fav')">
+      ❤️ Saved <span id="fav-count"></span>
+    </button>
+  </div>
+
+  <!-- PANEL: GENERATE -->
+  <div id="view-gen">
+
+    <!-- Categories -->
+    <div class="categories">
+      <button class="cat-btn active" data-cat="Any"         onclick="selectCat(this)">🎲 Any</button>
+      <button class="cat-btn"        data-cat="Programming" onclick="selectCat(this)">💻 Programming</button>
+      <button class="cat-btn"        data-cat="Pun"         onclick="selectCat(this)">🎤 Puns</button>
+      <button class="cat-btn"        data-cat="Misc"        onclick="selectCat(this)">🎩 Misc</button>
+      <button class="cat-btn"        data-cat="Spooky"      onclick="selectCat(this)">👻 Spooky</button>
+      <button class="cat-btn"        data-cat="Christmas"   onclick="selectCat(this)">🎄 Christmas</button>
+    </div>
+
+    <!-- Joke card (updated by script.js → renderJoke()) -->
+    <div class="joke-box" id="joke-box" aria-live="polite">
+      <p class="placeholder">Press the button to get a joke!</p>
+    </div>
+
+    <!-- Generate button -->
+    <button class="btn-generate" id="btn-gen" onclick="fetchJoke()">
+      Get a joke
+    </button>
+
+    <!-- Action buttons: visible after the first joke -->
+    <div class="actions">
+      <button class="btn-sec" id="btn-save"  onclick="toggleSave()">🤍 Save</button>
+      <button class="btn-sec" id="btn-share" onclick="shareJoke()">📤 Share</button>
+    </div>
+
+    <!-- Session counter -->
+    <p class="counter" id="counter"></p>
+
+  </div>
+  <!-- /view-gen -->
+
+  <!-- PANEL: FAVORITES -->
+  <div id="view-fav">
+
+    <!-- Favorites list (populated by script.js → renderFavList()) -->
+    <div id="fav-list"></div>
+
+    <!-- Empty state -->
+    <p class="fav-empty" id="fav-empty" style="display:none;">
+      No saved jokes yet.<br>Generate some and hit 🤍!
+    </p>
+
+  </div>
+  <!-- /view-fav -->
+
+</div>
+
+<!--
+  Load order matters:
+  1. api.js     → exposes getJoke()
+  2. storage.js → exposes loadFavs(), saveFavs(), isFav(), addFav(), removeFav(), getKey()
+  3. script.js  → uses the modules above, drives the UI
+-->
+<script src="js/api.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
